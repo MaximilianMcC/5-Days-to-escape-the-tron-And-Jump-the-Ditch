@@ -25,12 +25,16 @@ class Program
 			Raylib.BeginMode3D(gameObjects.OfType<Player>().First().Camera);
 				for (int i = gameObjects.Count - 1; i >= 0 ; i--)
 				{
-					gameObjects[i].Render();
+					gameObjects[i].Draw3D();
 				}
 				Raylib.DrawCube(-Vector3.UnitZ * 3, 1f, 1f, 1f, Color.Red);
 				Raylib.DrawGrid(15, 1);
 			Raylib.EndMode3D();
-				Raylib.DrawText("5 days to escape the tron and jump the ditch", 10, 10, 30, Color.White);
+				for (int i = gameObjects.Count - 1; i >= 0 ; i--)
+				{
+					gameObjects[i].Draw2D();
+				}
+				Raylib.DrawText("5 days to escape the tron and jump the ditch", 10, 430, 30, Color.White);
 			Raylib.EndDrawing();
 		}
 

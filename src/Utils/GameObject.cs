@@ -4,6 +4,7 @@ abstract class GameObject
 
 	public virtual void Start() { }
 	public virtual void Update() { }
-	public virtual void Render() { }
+	public virtual void Draw3D() { }
+	public virtual void Draw2D() { }
 	public virtual void CleanUp() { }
 }
