@@ -19,8 +19,6 @@ class Skybox : GameObject
 
 		// Set the shaders settings, then apply it to the model
 		Raylib.SetShaderValue(skyboxShader, Raylib.GetShaderLocation(skyboxShader, "environmentMap"), MaterialMapIndex.Cubemap, ShaderUniformDataType.Int);
-		Raylib.SetShaderValue(skyboxShader, Raylib.GetShaderLocation(skyboxShader, "doGamma"), false, ShaderUniformDataType.Int);
-		Raylib.SetShaderValue(skyboxShader, Raylib.GetShaderLocation(skyboxShader, "vflipped"), false, ShaderUniformDataType.Int);
 		Raylib.SetMaterialShader(ref skybox, 0, ref skyboxShader);
 
 		// Load the skybox texture, then put it on the cube
@@ -34,7 +32,9 @@ class Skybox : GameObject
 
 	public override void Draw3D()
 	{
-		// Take away all 'volume'
+		// Let us see inside the cube and
+		// remove all 'volume' from it so it
+		// looks like its endless/super far away
 		Rlgl.DisableBackfaceCulling();
 		Rlgl.DisableDepthMask();
 
