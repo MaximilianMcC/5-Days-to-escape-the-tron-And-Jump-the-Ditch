@@ -6,11 +6,13 @@ class Program
 	public static void Main(string[] args)
 	{
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
+		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
 		Raylib.InitWindow(720, 480, "5 days to escape the tron and jump the ditch");
 
 		List<GameObject> gameObjects = new List<GameObject>()
 		{
-			new Player()	
+			new Player(),
+			new Car()
 		};
 		
 		while (!Raylib.WindowShouldClose())
@@ -27,7 +29,6 @@ class Program
 				{
 					gameObjects[i].Draw3D();
 				}
-				Raylib.DrawCube(-Vector3.UnitZ * 3, 1f, 1f, 1f, Color.Red);
 				Raylib.DrawGrid(15, 1);
 			Raylib.EndMode3D();
 				for (int i = gameObjects.Count - 1; i >= 0 ; i--)
@@ -42,6 +43,7 @@ class Program
 		{
 			gameObjects[i].CleanUp();
 		}
+
 
 		Raylib.CloseWindow();
 	}

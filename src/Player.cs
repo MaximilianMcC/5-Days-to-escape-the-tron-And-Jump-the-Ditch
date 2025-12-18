@@ -8,6 +8,9 @@ class Player : GameObject
 	private readonly float sensitivity = 0.001f;
 	private readonly float speed = 10f;
 
+	public bool CanMove { get; set; } = true;
+	public bool CanLookAround { get; set; } = true;
+
 	public Camera3D Camera;
 	public Vector3 Position;
 
@@ -28,12 +31,14 @@ class Player : GameObject
 
 		// Set up the camera
 		Camera = new Camera3D(
-			Position,
-			Position + -Vector3.UnitZ,
+			Vector3.Zero,
+			Vector3.Zero,
 			Vector3.UnitY,
 			60f,
 			CameraProjection.Perspective
 		);
+		LookAround();
+		Locomote();
 	}
 
 	private void LookAround()
@@ -79,8 +84,9 @@ class Player : GameObject
 
 	public override void Update()
 	{
-		LookAround();
-		Locomote();
+		// Movement
+		if (CanLookAround) LookAround();
+		if (CanMove) Locomote();
 
 		// Make the camera follow the player
 		Camera.Position = Position + (Vector3.UnitY * height);
@@ -88,6 +94,6 @@ class Player : GameObject
 
 	public override void Draw2D()
 	{
-		Raylib.DrawText($"Yaw: {Yaw}\nPitch: {Pitch}", 10, 10, 30, Color.White);
+		// Raylib.DrawText($"Yaw: {Yaw}\nPitch: {Pitch}", 10, 10, 30, Color.White);
 	}
 }
