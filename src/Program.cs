@@ -1,4 +1,5 @@
-﻿using Raylib_cs;
+﻿using System.Numerics;
+using Raylib_cs;
 
 class Program
 {
@@ -7,12 +8,35 @@ class Program
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.InitWindow(720, 480, "5 days to escape the tron and jump the ditch");
 
+		List<GameObject> gameObjects = new List<GameObject>()
+		{
+			new Player()	
+		};
+		
 		while (!Raylib.WindowShouldClose())
 		{
+			for (int i = gameObjects.Count - 1; i >= 0 ; i--)
+			{
+				gameObjects[i].Update();
+			}
+
 			Raylib.BeginDrawing();
 			Raylib.ClearBackground(Color.Magenta);
-			Raylib.DrawText("5 days to escape the tron and jump the ditch", 10, 10, 30, Color.White);
+			Raylib.BeginMode3D(gameObjects.OfType<Player>().First().Camera);
+				for (int i = gameObjects.Count - 1; i >= 0 ; i--)
+				{
+					gameObjects[i].Render();
+				}
+				Raylib.DrawCube(-Vector3.UnitZ * 3, 1f, 1f, 1f, Color.Red);
+				Raylib.DrawGrid(15, 1);
+			Raylib.EndMode3D();
+				Raylib.DrawText("5 days to escape the tron and jump the ditch", 10, 10, 30, Color.White);
 			Raylib.EndDrawing();
+		}
+
+		for (int i = gameObjects.Count - 1; i >= 0 ; i--)
+		{
+			gameObjects[i].CleanUp();
 		}
 
 		Raylib.CloseWindow();
