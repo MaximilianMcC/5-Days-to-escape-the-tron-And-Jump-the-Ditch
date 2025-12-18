@@ -11,10 +11,10 @@ class Program
 
 		List<GameObject> gameObjects = new List<GameObject>()
 		{
-			new Skybox(),
-
 			new Player(),
-			new Car()
+			new Car(),
+			
+			new Skybox()
 		};
 		
 		while (!Raylib.WindowShouldClose())
