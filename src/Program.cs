@@ -11,6 +11,8 @@ class Program
 
 		List<GameObject> gameObjects = new List<GameObject>()
 		{
+			new Skybox(),
+
 			new Player(),
 			new Car()
 		};

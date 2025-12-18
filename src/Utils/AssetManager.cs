@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using Raylib_cs;
 
 // TODO: Maybe just don't do any of this and just load the whole asset
@@ -171,6 +172,22 @@ class AssetManager
 
 		// Give back the loaded model
 		return model;
+	}
+
+	public static Shader LoadShader(string vertexPath, string fragmentPath)
+	{
+		// Get the assets byte array and extension
+		byte[] vertexBytes = GetAssetBytes(vertexPath, out _);
+		byte[] fragmentBytes = GetAssetBytes(fragmentPath, out _);
+
+		// Load the shader's by deserializing the contents into plaintext
+		Shader shader = Raylib.LoadShaderFromMemory(
+			Encoding.UTF8.GetString(vertexBytes),
+			Encoding.UTF8.GetString(fragmentBytes)
+		);
+
+		// Give back the shader
+		return shader;
 	}
 
 	//! Debug
