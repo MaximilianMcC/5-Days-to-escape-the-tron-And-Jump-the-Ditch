@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 using Raylib_cs;
 
 class Program
@@ -9,44 +10,20 @@ class Program
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
 		Raylib.InitWindow(720, 480, "5 days to escape the tron and jump the ditch");
 
-		List<GameObject> gameObjects = new List<GameObject>()
-		{
-			new Player(),
-			new Car(),
-			
-			new Skybox()
-		};
+		// Load the starting scene
+		SceneManager.SetScene(new Hamilton());
 		
 		while (!Raylib.WindowShouldClose())
 		{
-			for (int i = gameObjects.Count - 1; i >= 0 ; i--)
-			{
-				gameObjects[i].Update();
-			}
+			SceneManager.UpdateCurrentScene();
 
 			Raylib.BeginDrawing();
 			Raylib.ClearBackground(Color.Magenta);
-			Raylib.BeginMode3D(gameObjects.OfType<Player>().First().Camera);
-				for (int i = gameObjects.Count - 1; i >= 0 ; i--)
-				{
-					gameObjects[i].Draw3D();
-				}
-				Raylib.DrawGrid(15, 1);
-			Raylib.EndMode3D();
-				for (int i = gameObjects.Count - 1; i >= 0 ; i--)
-				{
-					gameObjects[i].Draw2D();
-				}
-				Raylib.DrawText("5 days to escape the tron and jump the ditch", 10, 430, 30, Color.White);
+			SceneManager.DrawCurrentScene();
 			Raylib.EndDrawing();
 		}
 
-		for (int i = gameObjects.Count - 1; i >= 0 ; i--)
-		{
-			gameObjects[i].CleanUp();
-		}
-
-
+		SceneManager.CleanUpCurrentScene();
 		Raylib.CloseWindow();
 	}
 }

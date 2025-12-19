@@ -4,14 +4,11 @@ using Raylib_cs;
 class Player : GameObject
 {
 	private readonly float height = 1.7f;
-
-	private readonly float sensitivity = 0.001f;
 	private readonly float speed = 10f;
 
 	public bool CanMove { get; set; } = true;
 	public bool CanLookAround { get; set; } = true;
 
-	public Camera3D Camera;
 	public Vector3 Position;
 
 	//? Values in radians
@@ -30,7 +27,7 @@ class Player : GameObject
 		Raylib.DisableCursor();
 
 		// Set up the camera
-		Camera = new Camera3D(
+		SceneManager.CurrentScene.ActiveCamera = new Camera3D(
 			Vector3.Zero,
 			Vector3.Zero,
 			Vector3.UnitY,
@@ -44,7 +41,7 @@ class Player : GameObject
 	private void LookAround()
 	{
 		// Get mouse input
-		Vector2 mouseMovement = Raylib.GetMouseDelta() * sensitivity;
+		Vector2 mouseMovement = Raylib.GetMouseDelta() * Settings.Sensitivity;
 
 		// Add to the yaw (left/right)
 		Yaw += mouseMovement.X;
@@ -54,7 +51,8 @@ class Player : GameObject
 		Pitch = Math.Clamp(Pitch, -1.55f, 1.55f);
 
 		// Update the cameras target direction
-		Camera.Target = Camera.Position + ForwardsDirection;
+		ref Camera3D camera = ref SceneManager.CurrentScene.ActiveCamera;
+		camera.Target = camera.Position + ForwardsDirection;
 	}
 
 	private void Locomote()
@@ -89,11 +87,13 @@ class Player : GameObject
 		if (CanMove) Locomote();
 
 		// Make the camera follow the player
-		Camera.Position = Position + (Vector3.UnitY * height);
+		ref Camera3D camera = ref SceneManager.CurrentScene.ActiveCamera;
+		camera.Position = Position + (Vector3.UnitY * height);
 	}
 
-	public override void Draw2D()
+	public override void Draw2DDebug()
 	{
-		// Raylib.DrawText($"Yaw: {Yaw}\nPitch: {Pitch}", 10, 10, 30, Color.White);
+		ref Camera3D camera = ref SceneManager.CurrentScene.ActiveCamera;
+		Raylib.DrawText($"{Position}\n{camera.Position}", 100, 100, 20, Color.White);
 	}
 }

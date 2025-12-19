@@ -3,6 +3,8 @@ using Raylib_cs;
 
 class Skybox : GameObject
 {
+	public override int RenderPriority3D => -1000;
+
 	private Model skybox;
 	private Shader skyboxShader;
 	private Texture2D cubemap;
