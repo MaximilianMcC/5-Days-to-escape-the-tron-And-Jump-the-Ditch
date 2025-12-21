@@ -27,10 +27,21 @@ class SceneManager
 		// Check for if we're toggling debug mode
 		if (Raylib.IsKeyPressed(KeyboardKey.Grave)) Settings.Debug = !Settings.Debug;
 
-		for (int i = CurrentScene.GameObjects.Count - 1; i >= 0 ; i--)
+		// Update everything
+		foreach (GameObject gameObject in CurrentScene.GameObjects)
 		{
-			CurrentScene.GameObjects[i].Update();
+			gameObject.Update();
 		}
+
+		// Delete anything that needs to go
+		for (int i = CurrentScene.GameObjects.Count - 1; i >= 0; i--)
+		{
+			if (CurrentScene.GameObjects[i].QueuedForDeletion)
+			{
+				CurrentScene.Remove(CurrentScene.GameObjects[i]);
+			}
+		}
+
 	}
 
 	public static void DrawCurrentScene()
@@ -92,15 +103,12 @@ abstract class Scene
 		newGameObject.Start();
 
 		// Resort the rendering order thingy
-		GameObjects = GameObjects.OrderBy(gameObject => gameObject.RenderPriority3D).ToList();
+		GameObjects = GameObjects.OrderByDescending(gameObject => gameObject.RenderPriority3D).ToList();
 	}
 
 	public void Remove(GameObject gameObject)
 	{
-		// Call its clean up method
 		gameObject.CleanUp();
-
-		// Remove it from the scene
 		GameObjects.Remove(gameObject);
 	}
 }

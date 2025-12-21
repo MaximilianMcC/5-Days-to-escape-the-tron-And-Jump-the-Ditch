@@ -9,6 +9,7 @@ class Program
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
 		Raylib.InitWindow(720, 480, "5 days to escape the tron and jump the ditch");
+		Raylib.SetExitKey(KeyboardKey.Null);
 
 		// Load the starting scene
 		SceneManager.SetScene(new Hamilton());

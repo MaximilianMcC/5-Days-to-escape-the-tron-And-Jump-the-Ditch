@@ -1,7 +1,6 @@
 abstract class GameObject
 {
-	// No ctors allowed
-	// private GameObject() { }
+	public bool QueuedForDeletion { get; set; }
 
 	//? High numbers = rendered first
 	//? Low numbers = rendered last
